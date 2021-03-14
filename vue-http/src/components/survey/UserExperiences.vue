@@ -8,7 +8,9 @@
         >
       </div>
       <p v-if="isLoading">loading...</p>
-      <p v-if="!error && (!results || results.length === 0)">No data</p>
+      <p v-if="!error && (!results || results.length === 0)">
+        No data
+      </p>
       <p v-if="!isLoading && error">{{ error }}</p>
       <ul v-if="!isLoading && results.length > 0">
         <survey-result
@@ -45,15 +47,18 @@ export default {
 
       fetch('https://vue-http-demo-5a7f0.firebaseio.com/surveys.json')
         .then(response => {
+          this.error = null;
+
           if (response.ok) {
             return response.json();
+          } else {
+            this.error =
+              'Something went wrong. Server error ' + response.statusText;
           }
         })
         .then(data => {
-          this.isLoading = false;
-          this.error = null;
-
           const results = [];
+
           for (const id in data) {
             results.push({
               id: id,
@@ -61,7 +66,9 @@ export default {
               rating: data[id].rating
             });
           }
+
           this.results = results;
+          this.isLoading = false;
         })
         .catch(err => {
           this.isLoading = false;
