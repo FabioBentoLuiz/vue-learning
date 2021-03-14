@@ -31,6 +31,9 @@ export default {
       results: []
     };
   },
+  mounted() {
+    this.loadExperiences();
+  },
   methods: {
     loadExperiences() {
       fetch('https://vue-http-demo-5a7f0.firebaseio.com/surveys.json')
