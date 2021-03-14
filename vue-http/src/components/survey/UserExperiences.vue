@@ -8,7 +8,8 @@
         >
       </div>
       <p v-if="isLoading">loading...</p>
-      <p v-if="!results || results.length === 0">No data</p>
+      <p v-if="!error && (!results || results.length === 0)">No data</p>
+      <p v-if="!isLoading && error">{{ error }}</p>
       <ul v-if="!isLoading && results.length > 0">
         <survey-result
           v-for="result in results"
@@ -31,7 +32,8 @@ export default {
   data() {
     return {
       results: [],
-      isLoading: false
+      isLoading: false,
+      error: null
     };
   },
   mounted() {
@@ -49,6 +51,7 @@ export default {
         })
         .then(data => {
           this.isLoading = false;
+          this.error = null;
 
           const results = [];
           for (const id in data) {
