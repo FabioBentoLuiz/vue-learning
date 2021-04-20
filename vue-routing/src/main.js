@@ -20,7 +20,16 @@ const router = createRouter({
         {path: '/users', components: {default: UsersList, footer: UsersFooter} },
         // {path: '/:notFound(.*)', redirect: '/teams'}
         {path: '/:notFound(.*)', component: NotFound}
-    ]
+    ],
+    scrollBehavior(to, from, savedPosition) {
+        console.log(to, from, savedPosition);
+        if(savedPosition) {
+            return savedPosition;
+        }
+
+        // jump to the top
+        return {left: 0, top: 0}
+    }
 });
 
 const app = createApp(App);
