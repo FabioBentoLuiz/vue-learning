@@ -3,7 +3,7 @@
     <base-container title="Vuex"></base-container>
     <the-counter></the-counter>
     <favorite-value></favorite-value>
-    <button @click="addOne">Add 2</button>
+    <button @click="increment">Add 2</button>
     <button @click="increase">Increase by 10</button>
   </div>
 </template>
@@ -12,6 +12,7 @@
 import BaseContainer from './components/BaseContainer.vue';
 import TheCounter from './components/TheCounter.vue';
 import FavoriteValue from './components/FavoriteValue.vue';
+import { mapActions } from 'vuex';
 
 export default {
   components: {
@@ -25,9 +26,10 @@ export default {
     },
   },
   methods: {
-    addOne() {
-      this.$store.commit('increment');
-    },
+    // addOne() {
+    //   this.$store.dispatch('increment');
+    // },
+    ...mapActions(['increment']),
     increase() {
       this.$store.dispatch('increase', { value: 10 });
       // another way to do so:
