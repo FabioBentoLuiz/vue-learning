@@ -16,9 +16,6 @@ const counterModule = {
     increase(state, payload) {
       state.counter = state.counter + payload.value;
     },
-    login(state, payload) {
-      state.user = payload;
-    },
   },
   actions: {
     increment(context) {
@@ -30,12 +27,6 @@ const counterModule = {
       setTimeout(function() {
         context.commit('increase', payload);
       }, 3000);
-    },
-    login(context, payload) {
-      context.commit('login', payload);
-    },
-    logout(context) {
-      context.commit('login', undefined);
     },
   },
   getters: {
@@ -52,15 +43,33 @@ const counterModule = {
       }
       return finalCounter;
     },
-    loggedUser(state) {
-      return state.user;
-    },
   },
 };
 
 const store = createStore({
   modules: {
-    numbers: counterModule,
+    counter: counterModule,
+  },
+  state() {
+    return {};
+  },
+  mutations: {
+    login(state, payload) {
+      state.user = payload;
+    },
+  },
+  getters: {
+    loggedUser(state) {
+      return state.user;
+    },
+  },
+  actions: {
+    login(context, payload) {
+      context.commit('login', payload);
+    },
+    logout(context) {
+      context.commit('login', undefined);
+    },
   },
 });
 
