@@ -3,7 +3,7 @@ import { createStore } from 'vuex';
 
 import App from './App.vue';
 
-const store = createStore({
+const counterModule = {
   state() {
     return {
       counter: 0,
@@ -18,6 +18,24 @@ const store = createStore({
     },
     login(state, payload) {
       state.user = payload;
+    },
+  },
+  actions: {
+    increment(context) {
+      setTimeout(function() {
+        context.commit('increment');
+      }, 3000);
+    },
+    increase(context, payload) {
+      setTimeout(function() {
+        context.commit('increase', payload);
+      }, 3000);
+    },
+    login(context, payload) {
+      context.commit('login', payload);
+    },
+    logout(context) {
+      context.commit('login', undefined);
     },
   },
   getters: {
@@ -38,23 +56,11 @@ const store = createStore({
       return state.user;
     },
   },
-  actions: {
-    increment(context) {
-      setTimeout(function() {
-        context.commit('increment');
-      }, 3000);
-    },
-    increase(context, payload) {
-      setTimeout(function() {
-        context.commit('increase', payload);
-      }, 3000);
-    },
-    login(context, payload) {
-      context.commit('login', payload);
-    },
-    logout(context) {
-      context.commit('login', undefined);
-    },
+};
+
+const store = createStore({
+  modules: {
+    numbers: counterModule,
   },
 });
 
