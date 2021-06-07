@@ -39,9 +39,9 @@ export default {
     // addOne() {
     //   this.$store.dispatch('increment');
     // },
-    ...mapActions(['increment']),
+    ...mapActions('counter', ['increment']),
     increase() {
-      this.$store.dispatch('increase', { value: 10 });
+      this.$store.dispatch('counter/increase', { value: 10 });
       // another way to do so:
       // this.$store.commit({
       //   type: 'increase',

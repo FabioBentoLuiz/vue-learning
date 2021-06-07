@@ -4,6 +4,7 @@ import { createStore } from 'vuex';
 import App from './App.vue';
 
 const counterModule = {
+  namespaced: true,
   state() {
     return {
       counter: 0,
@@ -11,6 +12,7 @@ const counterModule = {
   },
   mutations: {
     increment(state) {
+      console.log(state.counter);
       state.counter = state.counter + 2;
     },
     increase(state, payload) {
@@ -21,17 +23,17 @@ const counterModule = {
     increment(context) {
       setTimeout(function() {
         context.commit('increment');
-      }, 3000);
+      }, 1000);
     },
     increase(context, payload) {
       setTimeout(function() {
         context.commit('increase', payload);
-      }, 3000);
+      }, 1000);
     },
   },
   getters: {
     finalCounter(state) {
-      return state.counter * 3;
+      return state.counter;
     },
     normalizedCounter(_, getters) {
       const finalCounter = getters.finalCounter;
