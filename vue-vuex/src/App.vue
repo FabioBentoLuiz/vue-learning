@@ -1,10 +1,15 @@
 <template>
   <div>
-    <base-container title="Vuex"></base-container>
-    <the-counter></the-counter>
-    <favorite-value></favorite-value>
-    <button @click="increment">Add 2</button>
-    <button @click="increase">Increase by 10</button>
+    <base-container title="Vuex" v-if="user">
+      <p>Hello {{ user.name }}</p>
+      <the-counter></the-counter>
+      <favorite-value></favorite-value>
+      <button @click="increment">Add 2</button>
+      <button @click="increase">Increase by 10</button>
+    </base-container>
+    <base-container title="auth">
+      <user-auth></user-auth>
+    </base-container>
   </div>
 </template>
 
@@ -13,16 +18,21 @@ import BaseContainer from './components/BaseContainer.vue';
 import TheCounter from './components/TheCounter.vue';
 import FavoriteValue from './components/FavoriteValue.vue';
 import { mapActions } from 'vuex';
+import UserAuth from './components/UserAuth.vue';
 
 export default {
   components: {
     BaseContainer,
     TheCounter,
     FavoriteValue,
+    UserAuth,
   },
   computed: {
-    counter() {
-      return this.$store.state.counter;
+    // counter() {
+    //   return this.$store.state.counter;
+    // },
+    user() {
+      return this.$store.getters.loggedUser;
     },
   },
   methods: {

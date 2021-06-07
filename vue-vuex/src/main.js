@@ -16,6 +16,9 @@ const store = createStore({
     increase(state, payload) {
       state.counter = state.counter + payload.value;
     },
+    login(state, payload) {
+      state.user = payload;
+    },
   },
   getters: {
     finalCounter(state) {
@@ -31,6 +34,9 @@ const store = createStore({
       }
       return finalCounter;
     },
+    loggedUser(state) {
+      return state.user;
+    },
   },
   actions: {
     increment(context) {
@@ -42,6 +48,12 @@ const store = createStore({
       setTimeout(function() {
         context.commit('increase', payload);
       }, 3000);
+    },
+    login(context, payload) {
+      context.commit('login', payload);
+    },
+    logout(context) {
+      context.commit('login', undefined);
     },
   },
 });
