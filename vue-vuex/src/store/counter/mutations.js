@@ -1,6 +1,5 @@
 export default {
   increment(state) {
-    console.log(state.counter);
     state.counter = state.counter + 2;
   },
   increase(state, payload) {

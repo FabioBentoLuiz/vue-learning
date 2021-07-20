@@ -1,6 +1,8 @@
 <template>
-  <the-header></the-header>
-  <router-view></router-view>
+  <div>
+    <the-header></the-header>
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
@@ -12,8 +14,22 @@ export default {
   },
   data() {
     return {
-      isLoggedIn: false,
-      products: [
+      isLoggedIn: false
+    };
+  },
+  provide() {
+    return {
+      isLoggedIn: this.isLoggedIn,
+      login: this.login,
+      logout: this.logout
+    };
+  },
+  mounted() {
+    this.loadProducts();
+  },
+  methods: {
+    loadProducts() {
+      const products = [
         {
           id: 'p1',
           image:
@@ -21,7 +37,7 @@ export default {
           title: 'Book Collection',
           description:
             'A collection of must-read books. All-time classics included!',
-          price: 99.99,
+          price: 99.99
         },
         {
           id: 'p2',
@@ -29,7 +45,7 @@ export default {
             'https://upload.wikimedia.org/wikipedia/en/thumb/c/c9/Tent_at_High_Shelf_Camp_cropped.jpg/640px-Tent_at_High_Shelf_Camp_cropped.jpg',
           title: 'Mountain Tent',
           description: 'A tent for the ambitious outdoor tourist.',
-          price: 129.99,
+          price: 129.99
         },
         {
           id: 'p3',
@@ -38,61 +54,25 @@ export default {
           title: 'Food Box',
           description:
             'May be partially expired when it arrives but at least it is cheap!',
-          price: 6.99,
-        },
-      ],
-      cart: { items: [], total: 0, qty: 0 },
-    };
-  },
-  provide() {
-    return {
-      isLoggedIn: this.isLoggedIn,
-      products: this.products,
-      cart: this.cart,
-      addProductToCart: this.addProductToCart,
-      removeProductFromCart: this.removeProductFromCart,
-      login: this.login,
-      logout: this.logout,
-    };
-  },
-  methods: {
+          price: 6.99
+        }
+      ];
+      this.$store.dispatch('loadProducts', products);
+    },
     addProductToCart(productData) {
-      const productInCartIndex = this.cart.items.findIndex(
-        (ci) => ci.productId === productData.id
-      );
-
-      if (productInCartIndex >= 0) {
-        this.cart.items[productInCartIndex].qty++;
-      } else {
-        const newItem = {
-          productId: productData.id,
-          title: productData.title,
-          image: productData.image,
-          price: productData.price,
-          qty: 1,
-        };
-        this.cart.items.push(newItem);
-      }
-      this.cart.qty++;
-      this.cart.total += productData.price;
+      this.$store.dispatch('addProductToCart', productData);
     },
 
     removeProductFromCart(prodId) {
-      const productInCartIndex = this.cart.items.findIndex(
-        (cartItem) => cartItem.productId === prodId
-      );
-      const prodData = this.cart.items[productInCartIndex];
-      this.cart.items.splice(productInCartIndex, 1);
-      this.cart.qty -= prodData.qty;
-      this.cart.total -= prodData.price * prodData.qty;
+      this.$store.dispatch('removeProductFromCart', prodId);
     },
     login() {
       this.isLoggedIn = true;
     },
     logout() {
       this.isLoggedIn = false;
-    },
-  },
+    }
+  }
 };
 </script>
 
