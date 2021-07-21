@@ -5,6 +5,7 @@ import getters from './getters';
 // import counterModule from './counter/index.js';
 
 const store = createStore({
+  //namespaced: true,
   modules: {
     // counter: counterModule
   },
